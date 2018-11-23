@@ -154,6 +154,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="Dealer.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="Evaluator.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Dealer.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

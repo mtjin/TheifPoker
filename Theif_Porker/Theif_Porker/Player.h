@@ -11,8 +11,11 @@ private:
 	Hand hand;
 public:
 	Player();
+	Player(string name, int money);
 	~Player();
-	void drawCard();
-
+	void drawCard(Deck de);
+	int getMoney();
+	string getName();
+	Hand getHand();
 };
 
