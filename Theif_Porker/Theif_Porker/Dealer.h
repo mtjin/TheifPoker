@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Deck.h"
+#include "Player.h"
 class Dealer
 {
 private:
@@ -8,5 +9,7 @@ private:
 public:
 	Dealer();
 	~Dealer();
+	void run(Player , Player) {};
+	int result(Player) {};
 };
 

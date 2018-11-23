@@ -16,7 +16,7 @@ int main()
 {
 	Human player1 = new Human();
 	Computer computer1 = new Computer();
-	Evaluator eval1 = new Evaluator();
+	//Evaluator eval1 = new Evaluator();
 	string temp_name;
 	int temp_money;
 
@@ -40,6 +40,8 @@ int main()
 	cin >> temp_money;
 	player1.setMoney( temp_money);
 	cout << endl;
+
+	
 
 	// 선 정하기
 	cout << "주사위 게임으로 순서를 결정합니다." << endl;
@@ -87,9 +89,11 @@ int main()
 		// 라운드 진행
 
 		// 승패 결정
+		/*
 		cout << i << "라운드 끝. 승패를 결정합니다." << endl;
 		cout << player1.getName() << "님의 패: " << eval1.checkScore(player1) << endl;
 		cout << computer1.getName() << "님의 패: " << eval1.checkScore(computer1) << endl;
+		*/
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
 // 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
