@@ -14,5 +14,9 @@ public:
 	~Player();
 	void drawCard();
 
+	string getName() { return name;};
+	int getMoney() { return money; };
+	void setName(string name) { this->name = name; };
+	void setMoney(int money) { this->money = money; };
 };
 
