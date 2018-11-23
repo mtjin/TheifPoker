@@ -1,0 +1,71 @@
+﻿  pch.cpp
+  Card.cpp
+  Dealer.cpp
+  Deck.cpp
+c:\users\진승언\source\repos\theif_porker\theif_porker\deck.cpp(24): error C3867: 'Card::getRank': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+c:\users\진승언\source\repos\theif_porker\theif_porker\deck.cpp(24): error C2440: '=': 'int (__cdecl Card::* )(void)'에서 'int'(으)로 변환할 수 없습니다.
+  c:\users\진승언\source\repos\theif_porker\theif_porker\deck.cpp(24): note: 이 변환이 가능한 컨텍스트가 없습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\deck.cpp(28): error C2039: 'p': 'std::vector<Card,std::allocator<_Ty>>'의 멤버가 아닙니다.
+          with
+          [
+              _Ty=Card
+          ]
+  c:\users\진승언\source\repos\theif_porker\theif_porker\deck.h(11): note: 'std::vector<Card,std::allocator<_Ty>>' 선언을 참조하십시오.
+          with
+          [
+              _Ty=Card
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\deck.cpp(28): error C2143: 구문 오류: ';'이(가) '}' 앞에 없습니다.
+  Hand.cpp
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(4): error C4430: 형식 지정자가 없습니다. int로 가정합니다. 참고: C++에서는 기본 int를 지원하지 않습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(4): error C2059: 구문 오류: ':'
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(7): error C2533: 'Hand::{ctor}': 생성자에서 반환 형식을 사용할 수 없습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(17): error C2059: 구문 오류: '}'
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(18): error C2039: 'Card': 'std::vector<Card,std::allocator<_Ty>>'의 멤버가 아닙니다.
+          with
+          [
+              _Ty=Card
+          ]
+  c:\users\진승언\source\repos\theif_porker\theif_porker\deck.h(11): note: 'std::vector<Card,std::allocator<_Ty>>' 선언을 참조하십시오.
+          with
+          [
+              _Ty=Card
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(18): error C2146: 구문 오류: ')'이(가) 'c' 식별자 앞에 없습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(18): error C2143: 구문 오류: ';'이(가) '{' 앞에 없습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(18): error C2447: '{': 함수 헤더가 없습니다. 이전 스타일의 형식 목록입니까?
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(21): error C2039: 'Card': 'std::vector<Card,std::allocator<_Ty>>'의 멤버가 아닙니다.
+          with
+          [
+              _Ty=Card
+          ]
+  c:\users\진승언\source\repos\theif_porker\theif_porker\deck.h(11): note: 'std::vector<Card,std::allocator<_Ty>>' 선언을 참조하십시오.
+          with
+          [
+              _Ty=Card
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(21): error C2146: 구문 오류: ')'이(가) 'c' 식별자 앞에 없습니다.
+c:\users\진승언\source\repos\theif_porker\theif_porker\hand.cpp(22): error C2761: 'int Hand::getCardCount(void)': 멤버를 재선언할 수 없습니다.
+  Player.cpp
+  Theif_Porker.cpp
+c:\users\진승언\source\repos\theif_porker\theif_porker\theif_porker.cpp(15): error C3867: 'std::vector<int,std::allocator<_Ty>>::pop_back': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+          with
+          [
+              _Ty=int
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\theif_porker.cpp(16): error C3867: 'std::vector<int,std::allocator<_Ty>>::pop_back': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+          with
+          [
+              _Ty=int
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\theif_porker.cpp(17): error C3867: 'std::vector<int,std::allocator<_Ty>>::pop_back': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+          with
+          [
+              _Ty=int
+          ]
+c:\users\진승언\source\repos\theif_porker\theif_porker\theif_porker.cpp(18): error C3867: 'std::vector<int,std::allocator<_Ty>>::pop_back': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
+          with
+          [
+              _Ty=int
+          ]
+  코드를 생성하고 있습니다...
