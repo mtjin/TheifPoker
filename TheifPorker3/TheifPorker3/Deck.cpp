@@ -6,6 +6,8 @@
 #include <time.h>
 
 using namespace std;
+
+//덱 생성
 Deck::Deck()
 {
 	cardCt = 0;
@@ -18,9 +20,10 @@ Deck::Deck()
 	}
 	deck[cardCt] = 0; //사신 카드
 	cardsUsed = 0;
-}  //현재 섞이지 않은 deck을 생성
+}
 
-void Deck::shuffle()
+//난수(rand)를 사용하여 카드를 suffle
+void Deck::shuffle()	
 {
 	for (int i = 21; i > 0; i--) {
 		(srand((unsigned int)time(NULL)));
@@ -31,18 +34,18 @@ void Deck::shuffle()
 		deck[randomnum] = temp;
 	}
 	cardsUsed = 0;
-} //난수(rand)를 사용하여 카드를 suffle합니다.
+} 
 
+//카드가 deck에서 사용될때, 남아있는 카드의 수를 반환
 int Deck::cardsLeft()
 {
 	return 21 - cardsUsed;
-}  //카드가 deck에서 사용될때,
-   //남아있는 카드의 수를 반환
+}  
 
+//카드를 21장 사용하였다면 shuffle하고 deck에서 카드를 한장 가져옴
 Card Deck::dealCard()
 {
 	if (cardsUsed == 21) shuffle();
 	cardsUsed++;
 	return deck[cardsUsed - 1];
-}  //카드를 21장 사용하였다면 shuffle
-   //deck에서 카드를 한장 가져옵니다.
+} 

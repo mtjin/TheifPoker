@@ -11,7 +11,7 @@ private:
 public:
 	Deck();
 	void shuffle(); //덱을 섞는 기능
-	int cardsLeft();
-	Card dealCard();
+	int cardsLeft();	//덱에 남아있는 카드 수 반환
+	Card dealCard();	//덱에서 카드 가져오기
 };
 

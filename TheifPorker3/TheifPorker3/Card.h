@@ -6,7 +6,7 @@ using namespace std;
 class Card
 {
 private:
-	int rank;
+	int rank; //카드숫자
 public:
 	Card();
 	Card(int x);
