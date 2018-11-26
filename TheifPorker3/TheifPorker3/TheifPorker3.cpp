@@ -5,6 +5,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <cstdlib>
+#include <ctime>
+#include <time.h>
 #include "Card.h"
 #include "Deck.h"
 #include "Hand.h"
@@ -14,6 +17,8 @@
 using namespace std;
 int main()
 {	
+	
+	/*
 	Deck deck;
 	Player player1("JIN", 10000);
 	Player player2("YOUNG", 10000);
@@ -28,15 +33,12 @@ int main()
 	cout << hand1.getCard(0).getRank();
 	cout << hand1.getCard(1).getRank();
 	cout << hand1.getCard(2).getRank();
-	cout << hand1.getCard(3).getRank();
-	cout << hand1.getCard(4).getRank() << endl;
-    
+	cout << hand1.getCard(3).getRank()<< endl;
 	cout << "Player2" << endl;
 	cout << hand2.getCard(0).getRank();
 	cout << hand2.getCard(1).getRank();
 	cout << hand2.getCard(2).getRank();
-	cout << hand2.getCard(3).getRank();
-	cout << hand2.getCard(4).getRank() << endl;
+	cout << hand2.getCard(3).getRank() << endl;
 
 	cout << "SWAP: 플레이어1의 1번째 카드와 플레이어2의 3번째 카드 교환" << endl;
 	player1.swapCard(&hand1, &hand2, 0, 2);
@@ -45,19 +47,88 @@ int main()
 	cout << hand1.getCard(0).getRank();
 	cout << hand1.getCard(1).getRank();
 	cout << hand1.getCard(2).getRank();
-	cout << hand1.getCard(3).getRank();
-	cout << hand1.getCard(4).getRank() << endl;
+	cout << hand1.getCard(3).getRank() << endl;
 
 	cout << "Player2" << endl;
 	cout << hand2.getCard(0).getRank();
 	cout << hand2.getCard(1).getRank();
 	cout << hand2.getCard(2).getRank();
-	cout << hand2.getCard(3).getRank();
-	cout << hand2.getCard(4).getRank() << endl;
+	cout << hand2.getCard(3).getRank() << endl;
 
 	cout << "Hello World!\n"; 
+	*/
+	
 
 	
+	string temp_name1 , temp_name2;
+	int temp_money1, temp_money2;
+
+	int roundnumber = 1;
+	int dice1;	// 플레이어 1의 주사위 값
+	int dice2;	// 플레이어 2의 주사위 값
+	int starterplayer;  //1이면 플레이어 1선, 2면 플레이어 2선
+	bool dicewinner = false;	// 주사위 게임 승패 카운터
+
+	// 시작 문구
+	cout << "도둑 포커에 오신것을 환영합니다." << endl;
+	
+	// 이름 및 금액 설정
+	cout << "플레이어 1번님의 이름을 입력해 주십시오." << endl << "이름: ";
+	cin >> temp_name1;
+	cout << "플레이어 1번님의 초기 금액을 입력해 주십시오." << endl << "금액: ";
+	cin >> temp_money1;
+	cout << endl;
+
+	cout << "플레이어 2번님의 이름을 입력해 주십시오." << endl << "이름: ";
+	cin >> temp_name2;
+	cout <<"플레이어 2번님의 초기 금액을 입력해 주십시오." << endl << "금액: ";
+	cin >> temp_money2;
+	cout << endl;
+
+	//플레이어 생성
+	Player player1(temp_name1, temp_money1);
+	Player player2(temp_name2, temp_money2);
+
+	//주사위 굴리기 시작순서 정하기
+	while (1) {
+		(srand((unsigned int)time(NULL)));
+		dice1 = (int)(rand() % (6)) + 1;
+		dice2 = (int)(rand() % (6)) + 1;
+		cout << player1.getName() << "의 주사위 값: " << dice1 << endl;
+		cout << player2.getName() << "의 주사위 값: " << dice2 << endl;
+		if (dice1 < dice2)
+		{
+			cout << player2.getName() << "님이 선을 갖습니다." << endl << endl;
+			starterplayer = 2;
+			break;
+		}
+		else if (dice1 > dice2)
+		{
+			cout << player1.getName() << "님이 선을 갖습니다." << endl << endl;
+			starterplayer = 1;
+			break;
+		}
+		else if (dice1 == dice2)
+			cout << "동점! 주사위를 다시 굴립니다." << endl << endl;
+	}
+
+	//덱생성
+	cout << "덱을 생성합니다." << endl << endl;
+	Deck deck;
+
+	//덱셔플
+	cout << "덱을 셔플합니다." << endl << endl;
+	deck.shuffle();
+
+	//게임진행(흐름)
+	while (1) {
+		//카드를 4장씩 드로우합니다.
+		player1.drawCard(&deck);
+		player2.drawCard(&deck);
+	}
+	
+
+
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴

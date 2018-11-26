@@ -18,7 +18,7 @@ Player::Player(string name, int money) {
 
 //카드 5장 드로우
 void Player::drawCard(Deck *de) {	
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 4; i++) {
 		hand.addCard(de->dealCard());
 	}
 }
