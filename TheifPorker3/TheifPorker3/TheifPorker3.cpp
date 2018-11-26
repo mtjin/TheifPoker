@@ -9,6 +9,7 @@
 #include "Deck.h"
 #include "Hand.h"
 #include "Player.h"
+#include "Game.h"
 
 using namespace std;
 int main()
@@ -18,40 +19,40 @@ int main()
 	Player player2("YOUNG", 10000);
 	deck.shuffle();
 
-	player1.drawCard(deck);
-	player2.drawCard(deck);
+	player1.drawCard(&deck);
+	player2.drawCard(&deck);
 	Hand hand1 = player1.getHand();
 	Hand hand2 = player2.getHand();
 
 	cout << "Player1" << endl;
-	cout << hand1.getCard(0).getRank() << endl;
-	cout << hand1.getCard(1).getRank() << endl;
-	cout << hand1.getCard(2).getRank() << endl;
-	cout << hand1.getCard(3).getRank() << endl;
+	cout << hand1.getCard(0).getRank();
+	cout << hand1.getCard(1).getRank();
+	cout << hand1.getCard(2).getRank();
+	cout << hand1.getCard(3).getRank();
 	cout << hand1.getCard(4).getRank() << endl;
     
 	cout << "Player2" << endl;
-	cout << hand2.getCard(0).getRank() << endl;
-	cout << hand2.getCard(1).getRank() << endl;
-	cout << hand2.getCard(2).getRank() << endl;
-	cout << hand2.getCard(3).getRank() << endl;
+	cout << hand2.getCard(0).getRank();
+	cout << hand2.getCard(1).getRank();
+	cout << hand2.getCard(2).getRank();
+	cout << hand2.getCard(3).getRank();
 	cout << hand2.getCard(4).getRank() << endl;
 
-	cout << "SWAP: 플레이어1의 3번쨰 카드와 플레이어2의 5번째 카드 교환" << endl;
-	player1.swapCard(&hand1, &hand2, 2, 4);
+	cout << "SWAP: 플레이어1의 1번째 카드와 플레이어2의 3번째 카드 교환" << endl;
+	player1.swapCard(&hand1, &hand2, 0, 2);
 
 	cout << "Player1" << endl;
-	cout << hand1.getCard(0).getRank() << endl;
-	cout << hand1.getCard(1).getRank() << endl;
-	cout << hand1.getCard(2).getRank() << endl;
-	cout << hand1.getCard(3).getRank() << endl;
+	cout << hand1.getCard(0).getRank();
+	cout << hand1.getCard(1).getRank();
+	cout << hand1.getCard(2).getRank();
+	cout << hand1.getCard(3).getRank();
 	cout << hand1.getCard(4).getRank() << endl;
 
 	cout << "Player2" << endl;
-	cout << hand2.getCard(0).getRank() << endl;
-	cout << hand2.getCard(1).getRank() << endl;
-	cout << hand2.getCard(2).getRank() << endl;
-	cout << hand2.getCard(3).getRank() << endl;
+	cout << hand2.getCard(0).getRank();
+	cout << hand2.getCard(1).getRank();
+	cout << hand2.getCard(2).getRank();
+	cout << hand2.getCard(3).getRank();
 	cout << hand2.getCard(4).getRank() << endl;
 
 	cout << "Hello World!\n"; 
