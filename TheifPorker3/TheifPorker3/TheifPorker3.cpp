@@ -12,6 +12,7 @@
 #include "Deck.h"
 #include "Hand.h"
 #include "Player.h"
+#include "Evaluator.h"
 #include "Game.h"
 
 using namespace std;
@@ -68,6 +69,10 @@ int main()
 	int dice2;	// 플레이어 2의 주사위 값
 	int starterplayer;  //1이면 플레이어 1선, 2면 플레이어 2선
 	bool dicewinner = false;	// 주사위 게임 승패 카운터
+	int input;	// 키보드 인풋값
+	int round = 1; // 게임 라운드 값
+
+	Evaluator eval(); // 점수체크
 
 	// 시작 문구
 	cout << "도둑 포커에 오신것을 환영합니다." << endl;
@@ -112,6 +117,8 @@ int main()
 			cout << "동점! 주사위를 다시 굴립니다." << endl << endl;
 	}
 
+	//스타터 플레이어 지정
+
 	//덱생성
 	cout << "덱을 생성합니다." << endl << endl;
 	Deck deck;
@@ -125,6 +132,73 @@ int main()
 		//카드를 4장씩 드로우합니다.
 		player1.drawCard(&deck);
 		player2.drawCard(&deck);
+
+		//선을 가진 플레이어 부터 차례 시작 (스테이, 베팅, 폴드)
+		cout << "<라운드 #1>" << endl;
+		cout << "플레이어 " << /*지정된 스타터 플레이어 << */ "님의 차례입니다." << endl;
+		cout <<  /* 스타터 플레이어 << */"님의 패: "; player1.displayHand();	cout << endl;
+
+		while (1) {
+			cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+			cin >> input;
+
+			if (input == 1 | input == 2 | input == 3) {
+				switch (input) {
+				case 1:
+					/* 플레이어가 스테이를 골랐을때의 알고리즘 */
+					break;
+				case 2:
+					/* 플레이어가 베팅을 골랐을때의 알고리즘 */
+					break;
+				case 3:
+					/* 플레이어가 홀드를 골랐을때의 알고리즘 */
+					break;
+				}
+				break;
+			}
+			else {
+				cout << "잘못된 입력입니다. 다시 선택해 주세요" << endl;
+			}
+		}
+
+		//게임 총 5라운드 진행
+		for (int i = 1; i < 10; i++) {
+
+			if (i%2 == 0) {
+				round++;
+				cout << "<라운드 #" << round << ">" << endl;
+			}
+			cout << "플레이어 " << /* 다음 플레이어 << */ "님의 차례입니다." << endl;
+			cout <<  /* 다음 플레이어 << */ "님의 패: "; player1.displayHand();	cout << endl;
+
+			while (1) {
+				cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+				cin >> input;
+
+				if (0 < input < 4) {
+					switch (input) {
+					case 1:
+						/* 플레이어가 스테이를 골랐을때의 알고리즘 */
+						break;
+					case 2:
+						/* 플레이어가 베팅을 골랐을때의 알고리즘 */
+						break;
+					case 3:
+						/* 플레이어가 홀드를 골랐을때의 알고리즘 */
+						break;
+					}
+					break;
+				}
+				else {
+					cout << "잘못된 입력입니다. 다시 선택해 주세요" << endl;
+				}
+			}
+		}
+
+		// Final라운드 (5라운드) 종료 후
+		cout << "모든 라운드가 종료되었습니다. 점수를 집계합니다." << endl;
+		eval().checkScore(player1);
+		
 	}
 	
 

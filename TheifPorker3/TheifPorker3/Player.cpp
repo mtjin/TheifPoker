@@ -73,3 +73,7 @@ int Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이어
 
 	return 0;
 }
+
+void Player::displayHand() {
+
+}

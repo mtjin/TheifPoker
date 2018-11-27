@@ -22,5 +22,6 @@ public:
 	void receiveReward(int reward); //이겼을시 보상
 	bool ableToParticipateIn(); //게임참가 할 수 있는지 조사( 최소금액비용 100보다 낮은금액을 가졌을 경우)
 	int swapCard(Hand *hand1, Hand *hand2, int n1, int n2); //상대방과 카드 교환
+	void displayHand();
 };
 
