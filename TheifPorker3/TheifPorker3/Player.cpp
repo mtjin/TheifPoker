@@ -43,6 +43,22 @@ void Player::bet(int betMoney) {
 	}
 }
 
+//레이스
+void Player::race(int betMoney) {
+	if (betMoney < money)
+	{
+		money -= betMoney;
+	}
+	else {
+		cout << "소지한 금액이 부족합니다" << endl;
+	}
+}
+
+//홀드
+void Player::hold() {
+	cout << name << " 플레이어는 홀드하였습니다" << endl;
+}
+
 //보상 획득
 void Player::receiveReward(int reward) {
 	money += reward;
@@ -72,4 +88,12 @@ int Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이어
 	hand2->changeCard(n2, tmp1);
 
 	return 0;
+}
+
+//갖고있는 카드출력 
+void Player::displayHand() {
+	cout << hand.getCard(0).getRank();
+	cout << hand.getCard(1).getRank();
+	cout << hand.getCard(2).getRank();
+	cout << hand.getCard(3).getRank();
 }

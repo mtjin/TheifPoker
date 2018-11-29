@@ -13,12 +13,13 @@
 #include "Hand.h"
 #include "Player.h"
 #include "Game.h"
+#include "Evaluator.h"
 
 using namespace std;
 int main()
 {	
 	
-	/*
+	
 	Deck deck;
 	Player player1("JIN", 10000);
 	Player player2("YOUNG", 10000);
@@ -55,10 +56,29 @@ int main()
 	cout << hand2.getCard(2).getRank();
 	cout << hand2.getCard(3).getRank() << endl;
 
-	cout << "Hello World!\n"; 
-	*/
-	
+	Evaluator eval;
+	int player1_score = eval.checkScore(hand1);
+	int player2_score = eval.checkScore(hand2);
 
+	cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
+	if (player1_score == player2_score) {
+		cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
+		cout << "무승부" << endl;
+	}
+	if (player1_score > player2_score) {
+		cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
+		cout << "player1 승리" << endl;
+	}
+	if (player1_score < player2_score) {
+		cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
+		cout << "player2 승리" << endl;
+	}
+
+	player1.displayHand();
+	cout << "Hello World!\n"; 
+	
+	
+	/*
 	
 	string temp_name1 , temp_name2;
 	int temp_money1, temp_money2;
@@ -125,8 +145,24 @@ int main()
 		//카드를 4장씩 드로우합니다.
 		player1.drawCard(&deck);
 		player2.drawCard(&deck);
+		Evaluator eval;
+		int player1_score = eval.checkScore(player1);
+		int player2_score = eval.checkScore(player2);
+
+
+		if (player1_score == player2_score) {
+			cout << "무승부" << endl;
+		}
+		if (player1_score > player2_score) {
+			cout << "player1 승리" << endl;
+		}
+		if (player1_score < player1_score) {
+			cout << "player2 승리" << endl;
+		}
+		int s;
+		cin >> s;
 	}
-	
+	*/
 
 
 }

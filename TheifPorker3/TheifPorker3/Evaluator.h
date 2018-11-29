@@ -8,6 +8,6 @@ class Evaluator
 public:
 	Evaluator();
 	~Evaluator();
-	int checkScore(Player player);
+	int checkScore(Hand hand);
 };
 
