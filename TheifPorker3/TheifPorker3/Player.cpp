@@ -90,6 +90,7 @@ bool Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이�
 	return true;
 }
 
+<<<<<<< HEAD
 //갖고있는 카드출력 
 void Player::displayHand() {
 	cout << hand.getCard(0).getRank();
@@ -97,3 +98,8 @@ void Player::displayHand() {
 	cout << hand.getCard(2).getRank();
 	cout << hand.getCard(3).getRank();
 }
+=======
+void Player::displayHand() {
+
+}
+>>>>>>> 93851cb46b94d7e6db91320b0c34275a82725cf0
