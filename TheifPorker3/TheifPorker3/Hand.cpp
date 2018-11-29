@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Hand.h"
+#include "Card.h"
 #include <iostream>
 
 using namespace std;

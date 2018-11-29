@@ -74,20 +74,20 @@ bool Player::ableToParticipateIn() {
 	}
 }
 
-int Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이어와 카드 교환
+bool Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이어와 카드 교환
 	Card tmp1 = hand1->getCard(n1); //hand1이 갖고올 hand2의 카드 저장
 	if (tmp1.getRank() == 0) {  //자신이 줄 패가 사신카드인 경우 1을 반환(바로 반칙패 만들것)
 		cout << "사신카드는 상대에게 줄 수 없습니다 (반칙패)" << endl;
-		return 1;
+		return false;
 	}
 	Card tmp2 = hand2->getCard(n2);	 //hand2가 갖고올 hand1의 카드 저장
 	if (tmp2.getRank() == 0) {	//상대의 사신코드를 골랐을 경우 (바로 패)
-		return 1;
+		return false;
 	}
 	hand1->changeCard(n1, tmp2);
 	hand2->changeCard(n2, tmp1);
 
-	return 0;
+	return true;
 }
 
 //갖고있는 카드출력 

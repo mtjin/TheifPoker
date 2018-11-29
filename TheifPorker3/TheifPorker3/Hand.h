@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
 #include "Deck.h"
+#include "Card.h"
 
 // 카드 한장을 나타내는 Hand타입
-class Hand : public Deck {
+class Hand {
 private:
 	vector<Card> hand;
 public:

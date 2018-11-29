@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include "Card.h"
-class Deck : public Card {
+class Deck{
 private:
 	Card deck[21]; 
 	Card temp;
-	int cardsUsed;
+	int cardsUsed;  //사용한카드
 	int cardCt;
 	int randomnum;
 public:

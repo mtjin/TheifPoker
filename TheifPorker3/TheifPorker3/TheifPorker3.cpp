@@ -60,7 +60,7 @@ int main()
 	int player1_score = eval.checkScore(hand1);
 	int player2_score = eval.checkScore(hand2);
 
-	cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
+	//cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
 	if (player1_score == player2_score) {
 		cout << "점수1: " << player1_score << "   점수2:" << player2_score << endl;
 		cout << "무승부" << endl;
