@@ -9,6 +9,6 @@ public:
 	Evaluator();
 	~Evaluator();
 	int checkScore(Hand hand);
-	bool reaperCardIn(Hand);
+	
 };
 

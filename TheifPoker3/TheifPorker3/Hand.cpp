@@ -67,6 +67,7 @@ void Hand::displayHand() {
 	}
 	cout << endl;
 	cout << "-----------------------------"<<endl;
+	cout << "  ич     иш     ищ     иъ" << endl << endl;
 }
 
 void Hand::displayHiddenHand() {
@@ -75,7 +76,8 @@ void Hand::displayHiddenHand() {
 		cout << " | " << "#" << " | ";
 	}
 	cout << endl;
-	cout << "-----------------------------" << endl;
+	cout << "-----------------------------" << endl << endl;
+	cout << "  ич     иш     ищ     иъ" << endl;
 }
 
 void Hand::handShuffle() {

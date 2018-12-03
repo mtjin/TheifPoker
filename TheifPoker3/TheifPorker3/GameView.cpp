@@ -40,8 +40,8 @@ void GameView::gameRun() {
 	cout << "<<<<<룰은 다음과같습니다.>>>>>" << endl;
 	cout << "1. 기본자금이 100원 미만이 되면 플레이어가 패배한다" << endl;
 	cout << "2. 첫번째 턴 플레이어는 stay, bet, fold를 할 수있고 그 다음턴 부터는 call, bet , fold를 할 수 있다" << endl;
-	cout << "3. stay는 돈을 안걸고 기본 상태로 진행하는거다" << endl;
-	cout << "4. bet은 원하는 돈을 걸고 카드를 바꾸는 거다. " << endl;
+	cout << "3. stay는 돈을 걸지 않고 기본 상태로 턴을 종료 한다" << endl;
+	cout << "4. bet은 원하는 액수의 돈을 걸고 상대방과 카드를 교환 한다. " << endl;
 	cout << "5. call은 상대방이 베팅한 돈과 똑같이 가되 카드는 안바꾸는 거다" << endl;
 	cout << "6. fold는 라운드를 포기하는 거다. (기본요금 $100을 지불하는게 조건이다)" << endl;
 	cout << "7. 카드를 바꿀 때 사신카드를 선택하거나 마지막 까지 사신카드를 가지고 있다면 tableMoney 2배의 돈을 내야한다. (사신카드 = 0이다 )" << endl;
@@ -135,6 +135,8 @@ void GameView::gameRun() {
 
 			while (player1.ableToParticipateIn() || player2.ableToParticipateIn()) {
 
+
+
 				//현재잔액 공개
 				player1.displayMoney();
 				player2.displayMoney();
@@ -172,7 +174,7 @@ void GameView::gameRun() {
 
 					//몇턴인지 알림
 					cout << endl;
-					cout << "---------------" << roundNum << "턴 입니다." << "----------------" << endl;
+					cout << "---------------" << "턴 #" << roundNum << " 입니다----------------" << endl;
 					cout << player1.getName() << " 님의 패" << endl;
 					hand1.displayHand();
 					cout << player2.getName() << " 님의 패" << endl;
@@ -204,17 +206,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player1.swapCard(&hand1, &hand2, myCard, yourCard); // 카드 교환
+									roundOn = player1.swapCard(&hand1, &hand2, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player1.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player2.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player1.getName() << "님의 " << myCard << "번째 카드와 " << player2.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -275,17 +277,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player2.swapCard(&hand2, &hand1, myCard, yourCard); // 카드 교환
+									roundOn = player2.swapCard(&hand2, &hand1, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player2.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player1.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player2.getName() << "님의 " << myCard << "번째 카드와 " << player1.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -297,7 +299,7 @@ void GameView::gameRun() {
 										player2.subMoney(tableMoney / 2);
 										player1.addMoney(tableMoney + tableMoney / 2);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
-										cout << player1.getName() << "님의 승리!!" << player2.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
+										cout << player1.getName() << "님의 승리!!" << player1.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
 										tableMoney = 0; //테이블 머니 리셋
 									}
@@ -348,17 +350,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player1.swapCard(&hand1, &hand2, myCard, yourCard); // 카드 교환
+									roundOn = player1.swapCard(&hand1, &hand2, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player1.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player2.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player1.getName() << "님의 " << myCard << "번째 카드와 " << player2.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -419,17 +421,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player2.swapCard(&hand2, &hand1, myCard, yourCard); // 카드 교환
+									roundOn = player2.swapCard(&hand2, &hand1, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player2.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player1.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player2.getName() << "님의 " << myCard << "번째 카드와 " << player1.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -441,7 +443,7 @@ void GameView::gameRun() {
 										player2.subMoney(tableMoney / 2);
 										player1.addMoney(tableMoney + tableMoney / 2);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
-										cout << player1.getName() << "님의 승리!!" << player2.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
+										cout << player1.getName() << "님의 승리!!" << player1.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
 										tableMoney = 0; //테이블 머니 리셋
 									}
@@ -470,7 +472,7 @@ void GameView::gameRun() {
 						cout << player1.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 3) {
@@ -504,7 +506,7 @@ void GameView::gameRun() {
 						cout << player2.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 3) {
@@ -575,11 +577,17 @@ void GameView::gameRun() {
 
 							starterplayer = 2;
 						}
+
 						tableMoney = 0;
 						roundOn = false;
 					}
 				}
 
+				cout << endl << "계속하시려면 엔터를 눌러주세요..." << endl;
+				while (1) {
+					cin.ignore();
+					if (cin.peek() == '\n') break;
+				}
 			}
 		}
 		else if (gameRule == 2) {
@@ -735,17 +743,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player1.swapCard(&hand1, &hand2, myCard, yourCard); // 카드 교환
+									roundOn = player1.swapCard(&hand1, &hand2, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player1.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player2.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player1.getName() << "님의 " << myCard << "번째 카드와 " << player2.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -810,17 +818,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player2.swapCard(&hand2, &hand1, myCard, yourCard); // 카드 교환
+									roundOn = player2.swapCard(&hand2, &hand1, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player2.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player1.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player2.getName() << "님의 " << myCard << "번째 카드와 " << player1.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -886,17 +894,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player1.swapCard(&hand1, &hand2, myCard, yourCard); // 카드 교환
+									roundOn = player1.swapCard(&hand1, &hand2, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player1.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player2.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player1.getName() << "님의 " << myCard << "번째 카드와 " << player2.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -961,17 +969,17 @@ void GameView::gameRun() {
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 
-									cout << "교환하실 자신의 카드를 선택해 주십시오(0~3): " << endl;
+									cout << "교환하실 자신의 카드를 선택해 주십시오(1~4): " << endl;
 									cin >> myCard;
-									cout << "교환하실 상대방의 카드를 선택해 주십시오(0~3):" << endl;
+									cout << "교환하실 상대방의 카드를 선택해 주십시오(1~4):" << endl;
 									cin >> yourCard; cout << endl;
-									roundOn = player2.swapCard(&hand2, &hand1, myCard, yourCard); // 카드 교환
+									roundOn = player2.swapCard(&hand2, &hand1, myCard - 1, yourCard - 1); // 카드 교환
 
 									hand1.handShuffle();
 									hand2.handShuffle();
 
 									if (roundOn == true) {	//사신카드 안뽑을 경우	
-										cout << player2.getName() << "님의 " << myCard + 1 << "번째 카드와 " << player1.getName() << "님의 " << yourCard + 1 << "번째 카드를 교환합니다." << endl;
+										cout << player2.getName() << "님의 " << myCard << "번째 카드와 " << player1.getName() << "님의 " << yourCard << "번째 카드를 교환합니다." << endl;
 										cout << player1.getName() << " 님의 패" << endl;
 										hand1.displayHand();
 										cout << player2.getName() << " 님의 패" << endl;
@@ -1016,7 +1024,7 @@ void GameView::gameRun() {
 						cout << player1.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 3) {
@@ -1054,7 +1062,7 @@ void GameView::gameRun() {
 						cout << player2.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 3) {
@@ -1130,6 +1138,11 @@ void GameView::gameRun() {
 					}
 				}
 
+				cout << endl << "계속하시려면 엔터를 눌러주세요..." << endl;
+				while (1) {
+					cin.ignore();
+					if (cin.peek() == '\n') break;
+				}
 			}
 		}
 		else {

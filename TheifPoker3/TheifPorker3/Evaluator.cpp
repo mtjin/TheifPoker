@@ -60,25 +60,7 @@ int Evaluator::checkScore(Hand tmphand) {
 	}
 	return 0;  //족보없는 카드인경우
 }
-bool Evaluator::reaperCardIn(Hand tempHand) {
-	int arr[4];
-	for (int i = 0; i < tempHand.getCardcount(); i++) {  //손에들고있던 카드값들을 배열에 담아줌
-		arr[i] = tempHand.getCard(i).getRank();
-		if (arr[i] == 0) {
-			return true;
-		}
-	}
-	return false;
-}
 
-/*bool reaperCardIn(Hand tempHand) {
-	int arr[4];
-	for (int i = 0; i < tempHand.getCardcount(); i++) {  //손에들고있던 카드값들을 배열에 담아줌
-		arr[i] = tempHand.getCard(i).getRank();
-		if (arr[i] == 0){
-			return true;
-		}
-	}
-	return false;
-}*/
+
+
 

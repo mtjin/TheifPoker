@@ -122,7 +122,7 @@ void Player::displayHand() {
 
 void Player::displayMoney() {
 	cout << "-----------------------------" << endl;
-	cout << "|"<<this->name << " ´ÔÀÇ ÀÚº» : " << "$" << money << endl;
+	cout << "  "<<this->name << " ´ÔÀÇ ÀÚº» : " << "$" << money << endl;
 	cout << "-----------------------------" << endl;
 }
 
