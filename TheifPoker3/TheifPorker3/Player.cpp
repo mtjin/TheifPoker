@@ -54,7 +54,7 @@ bool Player::bet(int betMoney) {
 
 //ÄÝ
 bool Player::call(int betMoney) {
-	if (betMoney < money)
+	if (betMoney <= money)
 	{
 		money -= betMoney;
 		cout << name << "´ÔÀÌ $" << betMoney << " ÄÝ ÇÏ¼Ì½À´Ï´Ù." << endl;

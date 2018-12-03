@@ -112,11 +112,14 @@ void GameView::gameRun() {
 			int betMoney;
 			int totalPlayer1_Money = 0;
 			int totalPlayer2_Money = 0;
+			int preBetMoney = 0;
 			int myCard, yourCard; //카드 고를시 나의 카드, 상대방 카드
 			bool isCanBetting = true; //베팅할 금액이있는지
 			int roundNum = 0; //라운드수 (4라운드 이상이면 끝냄)
 			bool roundOn = true;	//라운드 카운터
-
+			bool isCanCall = true;
+			int tmpMoney = 0;
+			
 
 			//자금확인
 			cout << player1.getName() << " 님의 자금: $" << player1.getMoney() << endl;
@@ -124,9 +127,9 @@ void GameView::gameRun() {
 
 
 			// 카드 드로우
-			cout << "카드를 드로우 합니다!" << endl;
-			player1.drawCard(&deck);
-			player2.drawCard(&deck);
+			//cout << "카드를 드로우 합니다!" << endl;
+			//player1.drawCard(&deck);
+			//player2.drawCard(&deck);
 			Hand hand1 = player1.getHand();
 			Hand hand2 = player2.getHand();
 
@@ -145,6 +148,9 @@ void GameView::gameRun() {
 				//손카드 버리기 및 새카드받기 (리셋)
 				player1.clearHand();
 				player2.clearHand();
+
+				//카드 드로우
+				cout << "카드를 드로우 합니다!" << endl;
 				player1.drawCard(&deck);
 				player2.drawCard(&deck);
 				hand1 = player1.getHand();
@@ -174,13 +180,14 @@ void GameView::gameRun() {
 
 					//몇턴인지 알림
 					cout << endl;
-					cout << "---------------" << "턴 #" << roundNum << " 입니다----------------" << endl;
+					cout << "---------------" << "턴 #" << roundNum << " ----------------" << endl;
 					cout << player1.getName() << " 님의 패" << endl;
 					hand1.displayHand();
 					cout << player2.getName() << " 님의 패" << endl;
 					hand2.displayHand();
 
 					isCanBetting = true; //초기화
+					isCanCall = true;
 
 					// 1번플레이어 차례 첫턴
 					if (starterplayer == 1 && roundNum == 1) {
@@ -188,7 +195,7 @@ void GameView::gameRun() {
 						cout << player1.getName() << "님의 차례입니다." << endl;
 						while (1) {
 							//betMoney = 0; // 베팅머니 초기화
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
@@ -199,9 +206,19 @@ void GameView::gameRun() {
 									break;
 								case 2:
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player1.bet(betMoney));
+										if (betMoney > player2.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player1.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -259,7 +276,7 @@ void GameView::gameRun() {
 						cout << player2.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
@@ -270,9 +287,19 @@ void GameView::gameRun() {
 									break;
 								case 2:
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player2.bet(betMoney));
+										if (betMoney > player1.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player2.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
@@ -293,7 +320,6 @@ void GameView::gameRun() {
 										cout << player2.getName() << " 님의 패" << endl;
 										hand2.displayHand();
 
-										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
 										player2.subMoney(tableMoney / 2);
@@ -328,24 +354,46 @@ void GameView::gameRun() {
 
 						cout << endl;
 						cout << player1.getName() << "님의 차례입니다." << endl;
-
+					jump:
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
 								switch (input) {
 								case 1:
+
+									if (betMoney > player1.getMoney()) {
+										isCanCall = !(player1.call(betMoney));
+										goto jump;
+									}
 									player1.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 									starterplayer = 2;
 									break;
 								case 2:
+									preBetMoney = betMoney;
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
-										cin >> betMoney; cout << endl;
-										isCanBetting = !(player1.bet(betMoney));
+										cin >> tmpMoney; cout << endl;
+										//cin >> betMoney; cout << endl;
+										if (tmpMoney <= preBetMoney) {
+											cout<< "상대방보다 낮게 베팅할 수 없습니다" << endl;
+											goto jump;
+										}
+										if (tmpMoney > player2.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											betMoney = tmpMoney;  // 추가사항 
+											isCanBetting = !(player1.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -366,7 +414,6 @@ void GameView::gameRun() {
 										cout << player2.getName() << " 님의 패" << endl;
 										hand2.displayHand();
 
-										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
 										player1.subMoney(tableMoney / 2);
@@ -399,24 +446,46 @@ void GameView::gameRun() {
 					else if (starterplayer == 2 && (roundNum == 2 || roundNum == 3)) {
 						cout << endl;
 						cout << player2.getName() << "님의 차례입니다." << endl;
-
+					jump1:
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
 								switch (input) {
 								case 1:
+									if (betMoney > player2.getMoney()) {
+										isCanCall = !(player2.call(betMoney));
+										goto jump1;
+									}
 									player2.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 									starterplayer = 1;
 									break;
 								case 2:
+									preBetMoney = betMoney;
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
-										cin >> betMoney; cout << endl;
-										isCanBetting = !(player2.bet(betMoney));
+										cin >> tmpMoney; cout << endl;
+										//cin >> betMoney; cout << endl;
+										
+										if (tmpMoney <= preBetMoney) {
+											cout << "상대방보다 낮게 베팅할 수 없습니다" << endl;
+											goto jump1;
+										}
+										if (tmpMoney > player1.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											betMoney = tmpMoney; //추가사항
+											isCanBetting = !(player2.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
@@ -470,7 +539,7 @@ void GameView::gameRun() {
 					else if (starterplayer == 1 && roundNum == 4) {
 						cout << endl;
 						cout << player1.getName() << "님의 차례입니다." << endl;
-
+					jump2:
 						while (1) {
 							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
@@ -478,6 +547,19 @@ void GameView::gameRun() {
 							if (0 < input && input < 3) {
 								switch (input) {
 								case 1:
+									
+									if (betMoney > player1.getMoney()) {
+										if ((totalPlayer1_Money + betMoney) >  totalPlayer2_Money) {
+											betMoney = totalPlayer2_Money - totalPlayer1_Money;
+											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											player1.call(betMoney);
+											tableMoney += betMoney;
+											totalPlayer1_Money += betMoney;
+											break;
+										}
+										isCanCall = !(player1.call(betMoney));
+										goto jump2;
+									}
 									player1.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -504,7 +586,7 @@ void GameView::gameRun() {
 					else if (starterplayer == 2 && roundNum == 4) {
 						cout << endl;
 						cout << player2.getName() << "님의 차례입니다." << endl;
-
+					jump3:
 						while (1) {
 							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
@@ -512,6 +594,19 @@ void GameView::gameRun() {
 							if (0 < input && input < 3) {
 								switch (input) {
 								case 1:
+									if (betMoney > player2.getMoney()) {
+										if ((totalPlayer2_Money + betMoney) > totalPlayer1_Money) {
+											betMoney = totalPlayer1_Money - totalPlayer2_Money;
+											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											player2.call(betMoney);
+											tableMoney += betMoney;
+											totalPlayer2_Money += betMoney;
+											break;
+										}
+										isCanCall = !(player2.call(betMoney));
+										goto jump3;
+									}
+
 									player2.call(betMoney);
 									totalPlayer2_Money += betMoney;
 									tableMoney += betMoney;
@@ -651,7 +746,9 @@ void GameView::gameRun() {
 			int totalPlayer1_Money = 0;
 			int totalPlayer2_Money = 0;
 			int myCard, yourCard; //카드 고를시 나의 카드, 상대방 카드
+			int preBetMoney = 0;
 			bool isCanBetting = true; //베팅할 금액이있는지
+			bool isCanCall = true;
 			int roundNum = 0; //라운드수 (4라운드 이상이면 끝냄)
 			bool roundOn = true;	//라운드 카운터
 
@@ -714,6 +811,7 @@ void GameView::gameRun() {
 
 
 					isCanBetting = true; //초기화
+					isCanCall = true;
 
 					// 1번플레이어 차례 첫턴
 					if (starterplayer == 1 && roundNum == 1) {
@@ -725,7 +823,7 @@ void GameView::gameRun() {
 						cout << player1.getName() << "님의 차례입니다." << endl;
 						while (1) {
 							//betMoney = 0; // 베팅머니 초기화
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
@@ -736,9 +834,19 @@ void GameView::gameRun() {
 									break;
 								case 2:
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player1.bet(betMoney));
+										if (betMoney > player2.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player1.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -800,7 +908,7 @@ void GameView::gameRun() {
 						cout << player2.getName() << "님의 차례입니다." << endl;
 
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 스테이, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
@@ -811,9 +919,19 @@ void GameView::gameRun() {
 									break;
 								case 2:
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player2.bet(betMoney));
+										if (betMoney > player1.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player2.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
@@ -872,24 +990,43 @@ void GameView::gameRun() {
 						hand2.displayHiddenHand();
 						cout << endl;
 						cout << player1.getName() << "님의 차례입니다." << endl;
-
+					jump4:
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
 								switch (input) {
 								case 1:
+									if (betMoney > player1.getMoney()) {
+										isCanCall = !(player1.call(betMoney));
+										goto jump4;
+									}
 									player1.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
 									starterplayer = 2;
 									break;
 								case 2:
+									preBetMoney = betMoney;
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player1.bet(betMoney));
+										if (betMoney <= preBetMoney) {
+											cout << "상대방보다 낮게 베팅할 수 없습니다" << endl;
+											goto jump4;
+										}
+										if (betMoney > player2.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player1.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -947,24 +1084,44 @@ void GameView::gameRun() {
 						hand2.displayHand();
 						cout << endl;
 						cout << player2.getName() << "님의 차례입니다." << endl;
-
+					jump5:
 						while (1) {
-							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 홀드): ";
+							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.베팅, 3. 폴드): ";
 							cin >> input; cout << endl;
 
 							if (0 < input && input < 4) {
 								switch (input) {
 								case 1:
+									if (betMoney > player2.getMoney()) {
+										isCanCall = !(player2.call(betMoney));
+										goto jump5;
+									}
 									player2.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
 									starterplayer = 1;
 									break;
 								case 2:
+									preBetMoney = betMoney;
 									while (isCanBetting) {
+										//현재잔액 공개
+										player1.displayMoney();
+										player2.displayMoney();
+										cout << endl << endl;
+
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> betMoney; cout << endl;
-										isCanBetting = !(player2.bet(betMoney));
+
+										if (betMoney <= preBetMoney) {
+											cout << "상대방보다 낮게 베팅할 수 없습니다" << endl;
+											goto jump5;
+										}
+										if (betMoney > player1.getMoney()) {
+											cout << " 상대방의 자금보다 더 많이 베팅할 수 없습니다! " << endl;
+										}
+										else {
+											isCanBetting = !(player2.bet(betMoney));
+										}
 									}
 									tableMoney += betMoney;
 									totalPlayer2_Money += betMoney;
@@ -1022,7 +1179,7 @@ void GameView::gameRun() {
 						hand2.displayHiddenHand();
 						cout << endl;
 						cout << player1.getName() << "님의 차례입니다." << endl;
-
+					jump6:
 						while (1) {
 							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
@@ -1030,6 +1187,18 @@ void GameView::gameRun() {
 							if (0 < input && input < 3) {
 								switch (input) {
 								case 1:
+									if (betMoney > player1.getMoney()) {
+										if ((totalPlayer1_Money + betMoney) > totalPlayer2_Money) {
+											betMoney = totalPlayer2_Money - totalPlayer1_Money;
+											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											player1.call(betMoney);
+											tableMoney += betMoney;
+											totalPlayer1_Money += betMoney;
+											break;
+										}
+										isCanCall = !(player1.call(betMoney));
+										goto jump6;
+									}
 									player1.call(betMoney);
 									tableMoney += betMoney;
 									totalPlayer1_Money += betMoney;
@@ -1060,7 +1229,7 @@ void GameView::gameRun() {
 						hand2.displayHand();
 						cout << endl;
 						cout << player2.getName() << "님의 차례입니다." << endl;
-
+					jump7:
 						while (1) {
 							cout << "원하시는 행동에 맞는 번호를 선택하여 주십시오. (1. 콜, 2.폴드): ";
 							cin >> input; cout << endl;
@@ -1068,6 +1237,18 @@ void GameView::gameRun() {
 							if (0 < input && input < 3) {
 								switch (input) {
 								case 1:
+									if (betMoney > player1.getMoney()) {
+										if ((totalPlayer2_Money + betMoney) > totalPlayer1_Money) {
+											betMoney = totalPlayer1_Money - totalPlayer2_Money;
+											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											player2.call(betMoney);
+											tableMoney += betMoney;
+											totalPlayer2_Money += betMoney;
+											break;
+										}
+										isCanCall = !(player2.call(betMoney));
+										goto jump7;
+									}
 									player2.call(betMoney);
 									totalPlayer2_Money += betMoney;
 									tableMoney += betMoney;
@@ -1150,4 +1331,5 @@ void GameView::gameRun() {
 			cin >> gameRule; cout << endl;
 		}
 	}
+	exit(1);
 }
