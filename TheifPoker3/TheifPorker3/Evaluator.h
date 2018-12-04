@@ -9,6 +9,7 @@ public:
 	Evaluator();
 	~Evaluator();
 	int checkScore(Hand hand);
+	string scoreCard(int);
 	
 };
 

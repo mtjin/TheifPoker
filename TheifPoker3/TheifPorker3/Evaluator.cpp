@@ -61,6 +61,29 @@ int Evaluator::checkScore(Hand tmphand) {
 	return 0;  //족보없는 카드인경우
 }
 
-
+string Evaluator::scoreCard(int score) {
+	string temp;
+	switch (score) {
+	case 1:
+		temp = "원페어";
+		break;
+	case 2:
+		temp = "트리플";
+		break;
+	case 3:
+		temp = "스트레이트";
+		break;
+	case 4:
+		temp = "포카드";
+		break;
+	case -1:
+		temp = "사신 카드";
+		break;
+	case 0:
+		temp = "족보 없음";
+		break;
+	}
+	return temp;						
+}
 
 
