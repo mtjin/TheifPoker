@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "GameView.h"
 #include "Evaluator.h"
+#include <windows.h>
 using namespace std;
 
 GameView::GameView()
@@ -26,73 +27,122 @@ void GameView::gameRun() {
 	string temp_name1, temp_name2;
 	int temp_money1, temp_money2;
 
-	int roundnumber = 1;
+	int roundnumber = 1; // 라운드 수
 	int dice1;	// 플레이어 1의 주사위 값
 	int dice2;	// 플레이어 2의 주사위 값
-	int starterplayer;  //1이면 플레이어 1선, 2면 플레이어 2선
+	int starterplayer = 0;  //1이면 플레이어 1선, 2면 플레이어 2선
 	bool dicewinner = false;	// 주사위 게임 승패 카운터
 	int input; // 사용자 인풋 값
 	int score1 = 0;
 	int score2 = 0;
+	int gameRule; // 게임모드 선택지
 
 	// 시작 문구
 	cout << "도둑 포커에 오신것을 환영합니다." << endl;
 	cout << "<<<<<룰은 다음과같습니다.>>>>>" << endl;
-	cout << "1. 기본자금이 100원 미만이 되면 플레이어가 패배한다" << endl;
-	cout << "2. 첫번째 턴 플레이어는 stay, bet, fold를 할 수있고 그 다음턴 부터는 call, bet , fold를 할 수 있다" << endl;
-	cout << "3. stay는 돈을 걸지 않고 기본 상태로 턴을 종료 한다" << endl;
-	cout << "4. bet은 원하는 액수의 돈을 걸고 상대방과 카드를 교환 한다. " << endl;
-	cout << "5. call은 상대방이 베팅한 돈과 똑같이 가되 카드는 안바꾸는 거다" << endl;
-	cout << "6. fold는 라운드를 포기하는 거다. (기본요금 $100을 지불하는게 조건이다)" << endl;
-	cout << "7. 카드를 바꿀 때 사신카드를 선택하거나 마지막 까지 사신카드를 가지고 있다면 tableMoney 2배의 돈을 내야한다. (사신카드 = 0이다 )" << endl;
+	cout << "1. 기본자금이 100원 미만이 되면 패배합니다" << endl;
+	cout << "2. 첫번째 턴의 첫 플레이어는 stay를 할 수있습니다" << endl;
+	cout << "3. stay를 하면 돈을 걸지 않고 기본 상태로 턴을 종료 할 수 있습니다" << endl;
+	cout << "4. bet을 하면 원하는 액수의 돈을 걸고 상대방과 카드를 교환 할 수 있습니다. " << endl;
+	cout << "5. call을 하면 상대방이 베팅한 돈과 같은 금액을 지불하고 턴을 게임을 이어갑니다" << endl;
+	cout << "6. fold를 하면 해당 라운드에서 패배하게 됩니다. " << endl << "    (기본요금 $100과 지금까지 베팅한 돈은 상대방이 가져갑니다)" << endl;
+	cout << "7. 카드를 바꿀 때 사신카드를 선택하거나 마지막 까지 사신카드를 가지고 있다면 " << endl << "    tableMoney 2배의 금액을 내는 패널티를 받게됩니다." << endl;
+	cout << "8. 카드를 바꿀 때 상대방에게 줄 카드로 사신카드를 선택할 수 없습니다." << endl;
 	cout << endl;
+	cout << endl << "계속하시려면 엔터를 눌러주세요..." << endl;
+	cin.get();
+
 	cout << endl;
 
-	cout << "<게임방식을 선택하십시오>" << endl;
-	cout << "1번: 상대 패 공개 / 2번: 상대 패 비공개 (1 or 2 입력하시오)" << endl;
-	int gameRule;
-	cin >> gameRule; cout << endl;
+	while (1) {
+		cout << "<게임방식을 선택하십시오>" << endl;
+		cout << "1. 패 공개모드 2. 패 비공개모드 " << endl << "선택: ";
+		cin >> gameRule; cout << endl;
+		if (gameRule == 1 || gameRule == 2)
+			break;
+		else
+			cout << "잘못된 입력입니다." << endl << endl;
+	}
+
 	while (1) {
 		if (gameRule == 1) {
 
 			// 이름 및 금액 설정
 			cout << "플레이어 1번님의 이름을 입력해 주십시오." << endl << "이름: ";
 			cin >> temp_name1;
-			cout << "플레이어 1번님의 초기 금액을 입력해 주십시오." << endl << "금액: ";
-			cin >> temp_money1;
+			while (1) {
+				cout << "플레이어 1번님의 시작 금액을 입력해 주십시오." << endl << "금액: ";
+				cin >> temp_money1;
+				if (cin.fail()) {
+					cout << "잘못된 입력입니다. 다시 입력해주세요" << endl << endl; // 에러메세지
+					cin.clear(); cin.ignore(256, '\n');
+				}
+				else if (temp_money1 < 100) {
+					cout << "!!시작 금액은 $100 이상이여야 합니다!!" << endl << endl;
+				}
+				else
+					break;
+			}
+
 			cout << endl;
 
 			cout << "플레이어 2번님의 이름을 입력해 주십시오." << endl << "이름: ";
 			cin >> temp_name2;
-			cout << "플레이어 2번님의 초기 금액을 입력해 주십시오." << endl << "금액: ";
-			cin >> temp_money2;
+			while (1) {
+				cout << "플레이어 2번님의 시작 금액을 입력해 주십시오." << endl << "금액: ";
+				cin >> temp_money2;
+				if (cin.fail()) {
+					cout << "잘못된 입력입니다. 다시 입력해주세요" << endl << endl; // 에러메세지
+					cin.clear(); cin.ignore(256, '\n');
+				}
+				else if (temp_money2 < 100) {
+					cout << "!!시작 금액은 $100 이상이여야 합니다!!" << endl << endl;
+				}
+				else
+					break;
+			}
 			cout << endl;
 
 			//플레이어 생성
 			Player player1(temp_name1, temp_money1);
-			Player player2(temp_name2, temp_money2);;
+			Player player2(temp_name2, temp_money2);
 
 			//주사위 굴리기 시작순서 정하기
+			cout << "주사위를 던져 순서를 정합니다." << endl;
+			Sleep(1000);
 			while (1) {
 				(srand((unsigned int)time(0)));
 				dice1 = (int)(rand() % (6)) + 1;
 				dice2 = (int)(rand() % (6)) + 1;
 				cout << player1.getName() << "의 주사위 값: " << dice1 << endl;
-				cout << player2.getName() << "의 주사위 값: " << dice2 << endl;
+				Sleep(1000);
+
+				cout << player2.getName() << "의 주사위 값: " << dice2 << endl << endl;
+				Sleep(1000);
+
 				if (dice1 < dice2)
 				{
-					cout << player2.getName() << "님이 선을 갖습니다." << endl << endl;
+					cout << player2.getName() << "님이 선을 갖습니다!" << endl << endl;
 					starterplayer = 2;
+					cout << "엔터를 누르면 게임을 진행합니다..." << endl << endl;
+					cin.ignore();
+					cin.get();
 					break;
 				}
 				else if (dice1 > dice2)
 				{
-					cout << player1.getName() << "님이 선을 갖습니다." << endl << endl;
+					cout << player1.getName() << "님이 선을 갖습니다!" << endl << endl;
 					starterplayer = 1;
+					cout << "엔터를 누르면 게임을 진행합니다..." << endl << endl;
+					cin.ignore();
+					cin.get();
 					break;
 				}
-				else if (dice1 == dice2)
-					cout << "동점! 주사위를 다시 굴립니다." << endl << endl;
+				else if (dice1 == dice2) {
+					cout << "동점! 주사위를 다시 굴리려면 엔터를 눌러주세요..." << endl << endl;
+					cin.ignore();
+					cin.get(); 
+				}
 			}
 
 
@@ -100,12 +150,16 @@ void GameView::gameRun() {
 			Evaluator eval;
 
 			//덱생성
-			cout << "덱을 생성합니다." << endl << endl;
+			cout << ".........게임에 쓰일 덱을 생성중 입니다........." << endl << endl;
 			Deck deck;
+			Sleep(1000);
+
 
 			//덱셔플
-			cout << "덱을 셔플합니다." << endl << endl;
+			cout << "............생성된 덱을 셔플중 입니다..........." << endl << endl;
 			deck.shuffle();
+			Sleep(1000);
+
 
 			//테이블 머니 생성
 			int tableMoney = 0;
@@ -120,26 +174,11 @@ void GameView::gameRun() {
 			bool isCanCall = true;
 			int tmpMoney = 0;
 			
-
-			//자금확인
-			cout << player1.getName() << " 님의 자금: $" << player1.getMoney() << endl;
-			cout << player2.getName() << " 님의 자금: $" << player2.getMoney() << endl;
-
-
-			// 카드 드로우
-			//cout << "카드를 드로우 합니다!" << endl;
-			//player1.drawCard(&deck);
-			//player2.drawCard(&deck);
 			Hand hand1 = player1.getHand();
 			Hand hand2 = player2.getHand();
-
-
-
-
+					   			 
 			while (player1.ableToParticipateIn() || player2.ableToParticipateIn()) {
-
-
-
+				
 				//현재잔액 공개
 				player1.displayMoney();
 				player2.displayMoney();
@@ -149,23 +188,41 @@ void GameView::gameRun() {
 				player1.clearHand();
 				player2.clearHand();
 
+				cout << endl << "계속하시려면 엔터를 눌러주세요..." << endl;
+				while (1) {
+					cin.ignore();
+					if (cin.get() == '\n')
+						break;
+				}
+					
+				
+				if (!(player1.ableToParticipateIn())) {
+					cout << player1.getName() << "은 최소자본($100)이 없으므로 패배하였습니다." << endl;
+					cout << player2.getName() << "가 최종승리자입니다. 축하드립니다!!" << endl << endl;
+					cout << "게임을 종료합니다.";
+					
+					cin.ignore();
+					cin.get();
+					exit(1);
+				}
+				if (!(player2.ableToParticipateIn())) {
+					cout << player2.getName() << "은 최소자본($100)이 없으므로 패배하였습니다." << endl;
+					cout << player1.getName() << "가 최종승리자입니다. 축하드립니다!!" << endl << endl;
+					cout << "게임을 종료합니다.";
+
+					cin.ignore();
+					cin.get();
+					exit(1);
+				}
+				
 				//카드 드로우
 				cout << "카드를 드로우 합니다!" << endl;
 				player1.drawCard(&deck);
 				player2.drawCard(&deck);
 				hand1 = player1.getHand();
 				hand2 = player2.getHand();
+				Sleep(1000);
 
-				if (!(player1.ableToParticipateIn())) {
-					cout << player1.getName() << "은 최소자본($100)이 없으므로 패배하였습니다." << endl;
-					cout << player2.getName() << "가 최종승리자입니다. 축하드립니다!!" << endl;
-					break;
-				}
-				if (!(player2.ableToParticipateIn())) {
-					cout << player2.getName() << "은 최소자본($100)이 없으므로 패배하였습니다." << endl;
-					cout << player1.getName() << "가 최종승리자입니다. 축하드립니다!!" << endl;
-					break;
-				}
 
 				roundOn = true;	//라운드 카운터 초기화
 				roundNum = 0; //라운터 턴 초기화
@@ -1327,7 +1384,7 @@ void GameView::gameRun() {
 			}
 		}
 		else {
-			cout << "번호를 잘못입력하였습니다. 1번 혹은 2번만 다시 입력해주십시오" << endl;
+			cout << "번호를 잘못입력하였습니다. 다시 입력해주십시오" << endl;
 			cin >> gameRule; cout << endl;
 		}
 	}
