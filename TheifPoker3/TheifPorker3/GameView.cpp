@@ -47,7 +47,7 @@ void GameView::gameRun() {
 		Sleep(100);
 	}
 	cout << endl << endl;
-	
+
 	cout << "―――――――――――――――도둑 포커 규칙――――――――――――――――" << endl;
 	cout << "| 1. 기본자금이 100원 미만이 되면 패배합니다.                              |" << endl;
 	cout << "| 2. 첫번째 턴의 첫 플레이어는 stay를 할 수있습니다.                       |" << endl;
@@ -60,7 +60,7 @@ void GameView::gameRun() {
 	cout << "|    있게 되면, Table Money의 2배에 해당하는 금액을 내야한다.              |" << endl;
 	cout << "| 8. 카드를 바꿀 때 상대방에게 줄 카드로 사신카드를 선택할 수 없다.        |" << endl;
 	cout << "――――――――――――――――――――――――――――――――――――――" << endl << endl;
-		
+
 	cout << "――――――――도둑 포커 족보―――――――――" << endl;
 	cout << "| 원페어: 카드 2장의 숫자가 같은 패            |" << endl;
 	cout << "| 트리플: 카드 3장의 숫자가 같은 패            |" << endl;
@@ -162,7 +162,7 @@ void GameView::gameRun() {
 				else if (dice1 == dice2) {
 					cout << "---동점! 주사위를 다시 굴리려면 엔터를 눌러주세요---" << endl << endl;
 					cin.ignore();
-					cin.get(); 
+					cin.get();
 				}
 			}
 
@@ -194,12 +194,12 @@ void GameView::gameRun() {
 			bool roundOn = true;	//라운드 카운터
 			bool isCanCall = true;
 			int tmpMoney = 0;
-			
+
 			Hand hand1 = player1.getHand();
 			Hand hand2 = player2.getHand();
-					   			 
+
 			while (player1.ableToParticipateIn() || player2.ableToParticipateIn()) {
-				
+
 				//현재잔액 공개
 				player1.displayMoney();
 				player2.displayMoney();
@@ -209,13 +209,13 @@ void GameView::gameRun() {
 				player1.clearHand();
 				player2.clearHand();
 
-				Sleep(1000);					
-				
+				Sleep(1000);
+
 				if (!(player1.ableToParticipateIn())) {
 					cout << player1.getName() << "은 최소자본($100)이 없으므로 패배하였습니다." << endl;
 					cout << player2.getName() << "가 최종승리자입니다. 축하드립니다!!" << endl << endl;
 					cout << "게임을 종료합니다.";
-					
+
 					cin.ignore();
 					cin.get();
 					exit(1);
@@ -229,7 +229,7 @@ void GameView::gameRun() {
 					cin.get();
 					exit(1);
 				}
-				
+
 				//카드 드로우
 				cout << "카드를 드로우 합니다!" << endl;
 				player1.drawCard(&deck);
@@ -314,8 +314,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player1.subMoney(tableMoney / 2);
-										player2.addMoney(tableMoney + tableMoney / 2);
+										player1.subMoney(tableMoney);
+										player2.addMoney(tableMoney + tableMoney);
 										cout << player1.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player2.getName() << "님의 승리!!" << player2.getName() << "님이 $" << betMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -394,8 +394,8 @@ void GameView::gameRun() {
 
 									}
 									else { //사신카드 뽑을경우
-										player2.subMoney(tableMoney / 2);
-										player1.addMoney(tableMoney + tableMoney / 2);
+										player2.subMoney(tableMoney);
+										player1.addMoney(tableMoney + tableMoney);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player1.getName() << "님의 승리!!" << player1.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -419,7 +419,6 @@ void GameView::gameRun() {
 							}
 						}
 					}
-
 
 					//두번째 턴, 1번플레이어 턴일때
 					else if (starterplayer == 1 && (roundNum == 2 || roundNum == 3)) {
@@ -456,7 +455,7 @@ void GameView::gameRun() {
 										cin >> tmpMoney; cout << endl;
 										//cin >> betMoney; cout << endl;
 										if (tmpMoney <= preBetMoney) {
-											cout<< "상대방보다 낮게 베팅할 수 없습니다" << endl;
+											cout << "상대방보다 낮게 베팅할 수 없습니다" << endl;
 											goto jump;
 										}
 										if (tmpMoney > player2.getMoney()) {
@@ -488,8 +487,8 @@ void GameView::gameRun() {
 
 									}
 									else { //사신카드 뽑을경우
-										player1.subMoney(tableMoney / 2);
-										player2.addMoney(tableMoney + tableMoney / 2);
+										player1.subMoney(tableMoney);
+										player2.addMoney(tableMoney + tableMoney);
 										cout << player1.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player2.getName() << "님의 승리!!" << player2.getName() << "님이 $" << betMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -546,7 +545,7 @@ void GameView::gameRun() {
 										cout << "베팅하실 금액을 입력하여 주십시오. (금액단위$): $";
 										cin >> tmpMoney; cout << endl;
 										//cin >> betMoney; cout << endl;
-										
+
 										if (tmpMoney <= preBetMoney) {
 											cout << "상대방보다 낮게 베팅할 수 없습니다" << endl;
 											goto jump1;
@@ -581,8 +580,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player2.subMoney(tableMoney / 2);
-										player1.addMoney(tableMoney + tableMoney / 2);
+										player2.subMoney(tableMoney);
+										player1.addMoney(tableMoney + tableMoney);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player1.getName() << "님의 승리!!" << player1.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -619,9 +618,9 @@ void GameView::gameRun() {
 							if (0 < input && input < 3) {
 								switch (input) {
 								case 1:
-									
+
 									if (betMoney > player1.getMoney()) {
-										if ((totalPlayer1_Money + betMoney) >  totalPlayer2_Money) {
+										if ((totalPlayer1_Money + betMoney) > totalPlayer2_Money) {
 											betMoney = totalPlayer2_Money - totalPlayer1_Money;
 											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
 											player1.call(betMoney);
@@ -678,7 +677,6 @@ void GameView::gameRun() {
 										isCanCall = !(player2.call(betMoney));
 										goto jump3;
 									}
-
 									player2.call(betMoney);
 									totalPlayer2_Money += betMoney;
 									tableMoney += betMoney;
@@ -700,8 +698,15 @@ void GameView::gameRun() {
 						}
 					}
 
+					else if (player1.getMoney() == 0 || player2.getMoney() == 0) {
+						roundNum = 4; roundOn = true;
+						cout << "한쪽 플레이어의 돈이 전부다 베팅되었기때문에 바로 승패를 가립니다. Good Luck!" << endl << endl;
+						goto Zero1;
+					}
+
 					// final라운드  종료 후
 					if (roundNum == 4 && roundOn == true) {
+					Zero1:
 						cout << "모든 라운드가 종료되었습니다. 점수를 집계합니다." << endl;
 						score1 = eval.checkScore(hand1);
 						score2 = eval.checkScore(hand2);
@@ -724,8 +729,8 @@ void GameView::gameRun() {
 							cout << player1.getName() << " 승리 " << endl;
 							if (score2 == -1) { //사신카드
 								cout << "사신카드를 들고있었으므로 2배 패널티가 적용됩니다" << endl;
-								player1.addMoney(tableMoney + tableMoney / 2);
-								player2.subMoney(tableMoney / 2);
+								player1.addMoney(tableMoney + tableMoney);
+								player2.subMoney(tableMoney);
 							}
 							else {
 								player1.addMoney(tableMoney);
@@ -737,8 +742,8 @@ void GameView::gameRun() {
 							cout << player2.getName() << "승리" << endl;
 							if (score1 == -1) { //사신카드
 								cout << "사신카드를 들고있었으므로 2배 패널티가 적용됩니다" << endl;
-								player2.addMoney(tableMoney + tableMoney / 2);
-								player1.subMoney(tableMoney / 2);
+								player2.addMoney(tableMoney + tableMoney);
+								player1.subMoney(tableMoney);
 							}
 							else {
 								player2.addMoney(tableMoney);
@@ -979,8 +984,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player1.subMoney(tableMoney / 2);
-										player2.addMoney(tableMoney + tableMoney / 2);
+										player1.subMoney(tableMoney);
+										player2.addMoney(tableMoney + tableMoney);
 										cout << player1.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player2.getName() << "님의 승리!!" << player2.getName() << "님이 $" << betMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -1064,8 +1069,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player2.subMoney(tableMoney / 2);
-										player1.addMoney(tableMoney + tableMoney / 2);
+										player2.subMoney(tableMoney);
+										player1.addMoney(tableMoney + tableMoney);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player1.getName() << "님의 승리!!" << player2.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -1089,7 +1094,6 @@ void GameView::gameRun() {
 							}
 						}
 					}
-
 
 					//두번째 턴, 1번플레이어 턴일때
 					else if (starterplayer == 1 && (roundNum == 2 || roundNum == 3)) {
@@ -1159,8 +1163,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player1.subMoney(tableMoney / 2);
-										player2.addMoney(tableMoney + tableMoney / 2);
+										player1.subMoney(tableMoney);
+										player2.addMoney(tableMoney + tableMoney);
 										cout << player1.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player2.getName() << "님의 승리!!" << player2.getName() << "님이 $" << betMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -1254,8 +1258,8 @@ void GameView::gameRun() {
 										starterplayer = 2; //선은 2번한테감
 									}
 									else { //사신카드 뽑을경우
-										player2.subMoney(tableMoney / 2);
-										player1.addMoney(tableMoney + tableMoney / 2);
+										player2.subMoney(tableMoney);
+										player1.addMoney(tableMoney + tableMoney);
 										cout << player2.getName() << "님이 사신카드를 뽑으셨습니다!" << endl;
 										cout << player1.getName() << "님의 승리!!" << player2.getName() << "님이 $" << tableMoney * 2 << " 를 얻었습니다!" << endl;
 										roundOn = false;
@@ -1379,8 +1383,15 @@ void GameView::gameRun() {
 						}
 					}
 
+					else if (player1.getMoney() == 0 || player2.getMoney() == 0) {
+						roundNum = 4; roundOn = true;
+						cout << "한쪽 플레이어의 돈이 전부다 베팅되었기때문에 바로 승패를 가립니다. Good Luck!" << endl << endl;
+						goto Zero2;
+					}
+
 					// final라운드  종료 후
 					if (roundNum == 4 && roundOn == true) {
+					Zero2:
 						cout << "모든 라운드가 종료되었습니다. 점수를 집계합니다." << endl;
 						score1 = eval.checkScore(hand1);
 						score2 = eval.checkScore(hand2);
@@ -1403,8 +1414,8 @@ void GameView::gameRun() {
 							cout << player1.getName() << " 승리 " << endl;
 							if (score2 == -1) { //사신카드
 								cout << "사신카드를 들고있었으므로 2배 패널티가 적용됩니다" << endl;
-								player1.addMoney(tableMoney + tableMoney / 2);
-								player2.subMoney(tableMoney / 2);
+								player1.addMoney(tableMoney + tableMoney);
+								player2.subMoney(tableMoney);
 							}
 							else {
 								player1.addMoney(tableMoney);
@@ -1416,8 +1427,8 @@ void GameView::gameRun() {
 							cout << player2.getName() << "승리" << endl;
 							if (score1 == -1) { //사신카드
 								cout << "사신카드를 들고있었으므로 2배 패널티가 적용됩니다" << endl;
-								player2.addMoney(tableMoney + tableMoney / 2);
-								player1.subMoney(tableMoney / 2);
+								player2.addMoney(tableMoney + tableMoney);
+								player1.subMoney(tableMoney);
 							}
 							else {
 								player2.addMoney(tableMoney);
