@@ -112,13 +112,6 @@ bool Player::swapCard(Hand *hand1, Hand *hand2, int n1, int n2) {	//상대 플레이�
 	return true;
 }
 
-//갖고있는 카드출력 
-void Player::displayHand() {
-	cout << hand.getCard(0).getRank();
-	cout << hand.getCard(1).getRank();
-	cout << hand.getCard(2).getRank();
-	cout << hand.getCard(3).getRank();
-}
 
 void Player::displayMoney() {
 	cout << "-----------------------------" << endl;
