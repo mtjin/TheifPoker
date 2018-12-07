@@ -46,7 +46,7 @@ int Deck::cardsLeft()
 Card Deck::dealCard()
 {
 	if (cardsUsed == 21) {
-		cout << "덱이 소진되어 새 생성하고 셔플합니다" << endl;
+		cout << "덱이 소진되어 새로 생성하고 셔플합니다" << endl;
 		shuffle();
 	}
 	cardsUsed++;

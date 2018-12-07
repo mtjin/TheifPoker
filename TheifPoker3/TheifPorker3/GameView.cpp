@@ -622,7 +622,7 @@ void GameView::gameRun() {
 									if (betMoney > player1.getMoney()) {
 										if ((totalPlayer1_Money + betMoney) > totalPlayer2_Money) {
 											betMoney = totalPlayer2_Money - totalPlayer1_Money;
-											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											cout << "콜 할 돈이 부족하므로 올인됩니다.  " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
 											player1.call(betMoney);
 											tableMoney += betMoney;
 											totalPlayer1_Money += betMoney;
@@ -668,7 +668,7 @@ void GameView::gameRun() {
 									if (betMoney > player2.getMoney()) {
 										if ((totalPlayer2_Money + betMoney) > totalPlayer1_Money) {
 											betMoney = totalPlayer1_Money - totalPlayer2_Money;
-											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											cout << "콜 할 돈이 부족하므로 올인됩니다.  " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
 											player2.call(betMoney);
 											tableMoney += betMoney;
 											totalPlayer2_Money += betMoney;
@@ -1303,7 +1303,7 @@ void GameView::gameRun() {
 									if (betMoney > player1.getMoney()) {
 										if ((totalPlayer1_Money + betMoney) > totalPlayer2_Money) {
 											betMoney = totalPlayer2_Money - totalPlayer1_Money;
-											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											cout << "콜 할 돈이 부족하므로 올인됩니다.  " << player1.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
 											player1.call(betMoney);
 											tableMoney += betMoney;
 											totalPlayer1_Money += betMoney;
@@ -1353,7 +1353,7 @@ void GameView::gameRun() {
 									if (betMoney > player1.getMoney()) {
 										if ((totalPlayer2_Money + betMoney) > totalPlayer1_Money) {
 											betMoney = totalPlayer1_Money - totalPlayer2_Money;
-											cout << "두 플레이어가 같은 총 액수를 배팅하였기 때문에 " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
+											cout << "콜 할 돈이 부족하므로 올인됩니다.  " << player2.getName() << "님의 Call Money 가 $" << betMoney << "로 적용 됩니다." << endl;
 											player2.call(betMoney);
 											tableMoney += betMoney;
 											totalPlayer2_Money += betMoney;
